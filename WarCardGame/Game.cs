@@ -12,7 +12,7 @@ namespace WarCardGame
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
         private int _rounds { get; set; }
-        private int _totalRounds { get; set; }
+        public int TotalRounds { get; set; }
         private string _gameResults { get; set; }
 
         public void Play()
@@ -27,25 +27,11 @@ namespace WarCardGame
             Deck deck = new Deck();
             _shuffledDeck = deck.Shuffle();
 
-            bool alternate = true;
-            foreach (var card in _shuffledDeck)
-            {
-                if (alternate)
-                {
-                    Player1.Cards.Add(card);
-                    alternate = false;
-                }
-                else
-                {
-                    Player2.Cards.Add(card);
-                    alternate = true;
-                }
-                    
-            }
+            DealCards(_players, _shuffledDeck);
 
-            _totalRounds = 100;
+            TotalRounds = (TotalRounds == 0) ? 100 : TotalRounds;
             _rounds = 1;
-            while (_rounds < _totalRounds + 1 && (Player1.Cards.Count > 0 && Player2.Cards.Count > 0))
+            while (_rounds < TotalRounds + 1 && (Player1.Cards.Count > 0 && Player2.Cards.Count > 0))
             //while (Player1.Cards.Count > 0 || Player2.Cards.Count > 0)
             {
                 _gameResults += String.Format("<p>Round {0}</p>", _rounds);
@@ -53,6 +39,19 @@ namespace WarCardGame
                 _rounds++;
             }
             
+        }
+
+        private void DealCards(List<Player> players, List<Card> cards)
+        {
+            int counter = 0;
+            while (cards.Count > counter)
+            {
+                foreach (var player in _players)
+                {
+                    player.Cards.Add(cards.ElementAt(counter));
+                    counter++;
+                }
+            }
         }
 
         private void PlayRound()
