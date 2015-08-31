@@ -16,8 +16,8 @@ namespace WarCardGame
 
         protected void playButton_Click(object sender, EventArgs e)
         {
-            Player player1 = new Player() { Name = "Aaron" };
-            Player player2 = new Player() { Name = "Jess" };
+            Player player1 = new Player() { Name = player1TextBox.Text };
+            Player player2 = new Player() { Name = player2TextBox.Text };
             Game game = new Game(player1, player2);
             game.Play();
             resultLabel.Text += game.DisplayResults();
