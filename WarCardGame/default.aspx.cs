@@ -19,6 +19,7 @@ namespace WarCardGame
             Player player1 = new Player() { Name = player1TextBox.Text};
             Player player2 = new Player() { Name = player2TextBox.Text};
             Game game = new Game(player1, player2);
+            game.TotalRounds = 10;
             game.Play();
             resultLabel.Text += game.DisplayResults();
         }
