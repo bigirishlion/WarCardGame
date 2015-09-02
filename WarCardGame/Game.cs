@@ -7,28 +7,28 @@ namespace WarCardGame
 {
     public class Game
     {
+        public int TotalRounds { get; set; }
         private List<Card> _shuffledDeck { get; set; }
         private List<Player> _players { get; set; }
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
+        public Player _player1 { get; set; }
+        public Player _player2 { get; set; }
         private int _rounds { get; set; }
-        public int TotalRounds { get; set; }
         private string _gameResults { get; set; }
 
         public Game(Player player1, Player player2)
         {
-            Player1 = player1;
-            Player2 = player2;
+            _player1 = player1;
+            _player2 = player2;
         }
 
         public void Play()
         {
             _gameResults = "";
-            _players = new List<Player>() { Player1, Player2};
+            _players = new List<Player>() { _player1, _player2};
             DealCards();
             TotalRounds = (TotalRounds == 0) ? 100 : TotalRounds;
             _rounds = 1;
-            while (_rounds < TotalRounds + 1 && (Player1.Cards.Count > 0 && Player2.Cards.Count > 0))
+            while (_rounds < TotalRounds + 1 && (_player1.Cards.Count > 0 && _player2.Cards.Count > 0))
             {
                 _gameResults += String.Format("<p>Round {0}</p>", _rounds);
                 PlayRound();
@@ -54,7 +54,7 @@ namespace WarCardGame
 
         private void PlayRound()
         {
-            Battle battle = new Battle(Player1, Player2);
+            Battle battle = new Battle(_player1, _player2);
             _gameResults += battle.GameResults;
         }
 
@@ -74,8 +74,8 @@ namespace WarCardGame
             foreach (var player in _players)
                 result += String.Format("{0} has {1} cards<br>", player.Name, player.Cards.Count);
             result += "</p>";
-            if (Player1.Cards.Count > Player2.Cards.Count) result += String.Format("<p>{0} Wins!</p>",Player1.Name);
-            else result += String.Format("<p>{0} Wins!</p>", Player2.Name);
+            if (_player1.Cards.Count > _player2.Cards.Count) result += String.Format("<p>{0} Wins!</p>",_player1.Name);
+            else result += String.Format("<p>{0} Wins!</p>", _player2.Name);
             return result;
         }
 
