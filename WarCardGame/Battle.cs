@@ -9,8 +9,6 @@ namespace WarCardGame
     {
         private Player _player1 { get; set; }
         private Player _player2 { get; set; }
-        private List<Card> _player1Cards { get; set; }
-        private List<Card> _player2Cards { get; set; }
         public string GameResults { get; set; }
         private List<Card> _bounty { get; set; }
 
@@ -28,23 +26,25 @@ namespace WarCardGame
 
         private void performEvaluation(Player player1, Player player2, Card player1Card, Card player2Card)
         {
-            GameResults += String.Format("<p>{0} draws a {1} of {2}<br>", _player1.Name, player1Card.Name, player1Card.Suit);
-            GameResults += String.Format("{0} draws a {1} of {2}<br>", _player2.Name, player2Card.Name, player2Card.Suit);
+            GameResults += String.Format("<p>{0} draws a {1} of {2}<br>{3} draws a {4} of {5}<br>", _player1.Name, player1Card.Name, player1Card.Suit, _player2.Name, player2Card.Name, player2Card.Suit);
 
             if (player1Card.Number == player2Card.Number)
                 War(player1Card, player2Card);
             else if (player1Card.Number > player2Card.Number)
+            {
                 _player1.Cards.AddRange(_bounty);
+                GameResults += String.Format("{0} wins with a {1} of {2} and gets {3} cards", _player1.Name, player1Card.Name, player1Card.Suit, _bounty.Count);
+            }
             else
+            {
                 _player2.Cards.AddRange(_bounty);
-
+                GameResults += String.Format("{0} wins with a {1} of {2} and gets {3} cards", _player2.Name, player2Card.Name, player2Card.Suit, _bounty.Count);
+            }
             _bounty.Clear();
         }
 
         public void War(Card player1Card, Card player2Card)
         {
-            GameResults += "<br><p>!!!!! WAR !!!!!</p>";
-
             DrawCard(_player1);
             Card card1 = DrawCard(_player1);
             DrawCard(_player1);
@@ -52,6 +52,8 @@ namespace WarCardGame
             DrawCard(_player2);
             Card card2 = DrawCard(_player2);
             DrawCard(_player2);
+
+            GameResults += String.Format("<br><p>!!!!! WAR !!!!!</p> Bounty: {0}", _bounty.Count);
 
             performEvaluation(_player1, _player2, card1, card2);
         }

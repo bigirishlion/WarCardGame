@@ -20,6 +20,10 @@
         <asp:TextBox ID="player2TextBox" runat="server"></asp:TextBox>
         <br />
         <br />
+        How many rounds do you want to play?<br />
+        <asp:TextBox ID="totalRoundsTextBox" runat="server"></asp:TextBox>
+        <br />
+        <br />
         <asp:Button ID="playButton" runat="server" OnClick="playButton_Click" Text="Play" />
         <br />
         <br />
